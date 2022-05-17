@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # Membuat Akun Twitter Developer
-
-# In[ ]:
 
 
 #Import library yang dibutuhkan
@@ -15,25 +10,15 @@ from datetime import datetime
 from datetime import timedelta
 
 
-# In[ ]:
-
-
 # Menggunakan google drive sebagai storage
 from google.colab import drive
 drive.mount("/content/gdrive")
 
 
-# In[ ]:
-
-
 #Memasukan consumer key dan secret untuk akses API Twitter
 consumer_key = ''
 consumer_secret = ''
-
 auth = tweepy.AppAuthHandler(consumer_key,consumer_secret)
-
-
-# In[ ]:
 
 
 #Mengisi parameter pencarian
@@ -42,15 +27,11 @@ qry='kebijakan miras  since:'+since +' lang:in -filter:url -filter:images'
 maxTweets = 100000 # Isi sesuai dengan kebutuhan anda
 tweetsPerQry = 100  # dibatasi Twitter maksimum 100
 fName='/content/gdrive/MyDrive/Data_Tweet_'+datetime.now().strftime("%Y%m%d%H%M%S")+'.json' # Nama file hasil scraping
-
 api = tweepy.API(auth, wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
 
 
-# In[ ]:
-
-
+#Menjalankan crawling
 sinceId, max_id, tweetCount = None, -1, 0 
-
 print("Mulai mengunduh maksimum {0} tweets".format(maxTweets))
 with open(fName,'w') as f:
     while tweetCount < maxTweets:
@@ -79,10 +60,6 @@ print ('\nSelesai! {0} tweets tersimpan di "{1}"'.format(tweetCount,fName))
 
 
 # Menulis data tweet ke dalam file csv
-
-# In[ ]:
-
-
 import json
 import csv
 with open('/content/gdrive/MyDrive/Data_Tweet_20220321020604.json', 'r') as f:
@@ -97,4 +74,3 @@ with open('/content/gdrive/MyDrive/Data_Tweet_20220321020604.json', 'r') as f:
       tweet = json.loads(dt)
       csvWriter.writerow([tweet['id'],tweet['user']['id'],tweet['user']['screen_name'],tweet['created_at'],tweet['user']['location'],tweet['full_text'].replace('\n', ' ')])
     csvFile.close() 
-
